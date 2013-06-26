@@ -1,0 +1,4 @@
+id TestFile1	class	0
+id main		void	1
+id a		int	2
+id b		int	2

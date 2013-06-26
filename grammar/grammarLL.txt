@@ -1,0 +1,51 @@
+Program JavaClass
+JavaClass Modifier class Identifier ClassBody
+Modifier public
+Modifier private
+Modifier protected
+ClassBody { ClassBodyDeclaration }
+ClassBodyDeclaration DeclarationList
+DeclarationList Declaration A'
+A' Declaration A'
+A' empty
+Declaration VarDeclaration
+Declaration FunDeclaration
+VarDeclaration TypeSpecifier Identifier ;
+TypeSpecifier int
+TypeSpecifier void
+FunDeclaration Modifier static TypeSpecifier Identifier ( ) CompoundStmt
+CompoundStmt { LocalDeclarations StatementList }
+LocalDeclarations B'
+B' VarDeclaration B'
+B' empty
+StatementList C'
+C' Statement C'
+C' empty
+Statement ExpressionStmt
+Statement CompoundStmt
+Statement ReturnStmt
+ExpressionStmt Expression ;
+ExpressionStmt ;
+ReturnStmt return R'
+R' ;
+R' Expression ;
+Expression Identifier = Expression
+Expression SimpleExpression
+SimpleExpression AdditiveExpression D'
+D' Relop AdditiveExpression
+D' empty
+Relop <
+Relop >
+AdditiveExpression Term E'
+E' Addop Term E'
+E' empty
+Addop +
+Addop -
+Term Factor F'
+F' Mulop Factor F'
+F' empty
+Mulop *
+Mulop /
+Factor ( Expression )
+Factor Identifier
+Factor Int
