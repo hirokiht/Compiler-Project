@@ -35,7 +35,7 @@ int main(int argc, char ** argv){
 		return 4;
 	}
 	cout << "Parsed successfully! " << endl;
-	//ofs2 << slr->parseTree();
+	ofs2 << slr->parseTree();
 	cout << slr->parseTree2();
 	cout << *slr->parseTree2();
 	return 0;
