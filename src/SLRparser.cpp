@@ -69,7 +69,7 @@ bool SLRparser::parse(list<TOKEN*> tokens){
 	//			cout << reduce.back() << endl;
 			}
 		if(!found){
-			cerr << token << " not found in " << cur->label << "!" << endl;
+			cerr << *token << " not found in " << cur->label << "!" << endl;
 			return false;
 		}
 	}
@@ -88,54 +88,9 @@ string SLRparser::output(){
 }
 
 string SLRparser::parseTree(PRODUCTION* start){	// start = NULL
-	if(!valid){
-		cerr << "Syntax Incorrect! Unable to produce parse tree!" << endl;
-		return "Syntax Incorrect! Unable to produce parse tree!\n";
-	}
+	parseTree2();
 	ostringstream out;
-	if(start != NULL){
-		out << "1 " << start->head;
-		for(list<TOKEN>::iterator it = start->body.begin() ; it != start->body.end() ; it++)
-			out << ' ' << *it;
-		out << endl;
-	}
-	stack<PRODUCTION*> prods;
-	stack<list<TOKEN>::reverse_iterator> rits;		//refer to the production's body
-	prods.push(&*reduce.rbegin());
-	rits.push(prods.top()->body.rbegin());
-	ostringstream out2;
-	list<string> buff;
-	stack<list<string>::iterator> its;
-	its.push(buff.begin());
-	for(list<PRODUCTION>::reverse_iterator it = reduce.rbegin() ; it != reduce.rend() ; ){
-		for(unsigned int i = start == NULL? 1 : 0 ; i < prods.size() ; i++)
-			out2 << '\t';
-		out2 << prods.size()+(start == NULL? 0 : 1) << ' ' << *prods.top() << endl;
-		buff.insert(its.top(),out2.str());
-		out2.str("");
-		while(prods.size()){
-			if(rits.top() == prods.top()->body.rbegin())
-				its.push(its.top()--);
-			for( ; prods.size() && rits.top() == prods.top()->body.rend() ; its.pop(), rits.pop(), prods.pop());
-			if(prods.size() && rits.top()->isTerminal){
-				for(unsigned int i = start == NULL? 1 : 0 ; i <= prods.size() ; i++)
-					out2 << '\t';
-				out2 << prods.size()+(start == NULL? 1 : 2) << ' ' << *rits.top() << endl;
-				buff.insert(its.top(),out2.str());
-				out2.str("");
-				its.top()--;
-				rits.top()++;
-			}else if(prods.size()){
-				rits.top()++;
-				it++;
-				prods.push(&*it);
-				rits.push(prods.top()->body.rbegin());
-				break;
-			}else	it++;
-		}
-	}
-	for(list<string>::iterator it = buff.begin() ; it != buff.end() ; it++)
-		out << *it;
+	out << (start==NULL? root : new NODE((NODE){NULL,vector<NODE*>(1,root),&start->head,0}));
 	return out.str();
 }
 
@@ -168,20 +123,22 @@ NODE* SLRparser::parseTree2(){
 			}else	it++;
 		}
 	}
-	root = new NODE((NODE){NULL,vector<NODE*>(),&result.front()->head,0});
-	stack<NODE*> t;
-	for(t.push(root) ; result.size() ; result.pop_front()){
-		for(list<TOKEN>::iterator it = result.front()->body.begin() ; it != result.front()->body.end() ; it++)
-			t.top()->childs.push_back(new NODE((NODE){t.top(),vector<NODE*>(),&*it,t.size()}));
-		for(unsigned int i = 0 ; i < t.top()->childs.size() ; i++){
-			if(!t.top()->childs[i]->tok->isTerminal && !t.top()->childs[i]->childs.size()){
-				t.push(t.top()->childs[i]);
-				break;
-			}
-			if(i+1 == t.top()->childs.size())
-				t.pop();
+	return root = treegen(&result);
+}
+
+NODE* SLRparser::treegen(list<PRODUCTION*>* result, NODE* parent, unsigned int level){
+	PRODUCTION* prod = result->front();
+	result->pop_front();
+	NODE* root = new NODE((NODE){parent,vector<NODE*>(),&prod->head,level});
+	for(list<TOKEN>::iterator it = prod->body.begin() ; it != prod->body.end() ; it++)
+		if(it->isTerminal)
+			root->childs.push_back(new NODE((NODE){root,vector<NODE*>(),&*it,level+1}));
+		else if(*it == result->front()->head)
+			root->childs.push_back(treegen(result,root,level+1));
+		else{
+			cerr << "parse tree generation error!" << endl;
+			return NULL;
 		}
-	}
 	return root;
 }
 

@@ -12,7 +12,7 @@ Declaration FunDeclaration
 VarDeclaration TypeSpecifier Identifier ;
 TypeSpecifier int
 TypeSpecifier void
-FunDeclaration Modifier static TypeSpecifier Identifier ( ) CompoundStmt
+FunDeclaration Modifier static TypeSpecifier Identifier ( ) Statement
 CompoundStmt { LocalDeclarations StatementList }
 LocalDeclarations LocalDeclarations VarDeclaration
 LocalDeclarations

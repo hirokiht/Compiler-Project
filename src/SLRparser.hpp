@@ -14,19 +14,26 @@ typedef struct _node{
 	unsigned int level;
 } NODE;
 
-inline ostream& operator<<(ostream& os, const NODE& nod){
-	os << *nod.tok;
-	for(unsigned int c = 0 ; c < nod.childs.size() ; c++)
-		os << ' ' << *nod.childs[c]->tok;
-	return os << endl;
+inline ostream& operator<<(ostream& os, const NODE* nod){
+	for(unsigned int l = 0 ; l < nod->level ; l++)
+		os << '\t';
+	os << nod->level+1 << ' ' <<*nod->tok;
+	for(unsigned int c = 0 ; c < nod->childs.size() ; c++){
+		os << ' ' << *nod->childs[c]->tok;
+		nod->childs[c]->level = nod->level+1;
+	}
+	os << endl;
+	for(unsigned int c = 0 ; c < nod->childs.size() ; c++)
+		os << nod->childs[c];
+	return os;
 }
 
-inline ostream& operator<<(ostream& os, const NODE* nod){
-	os << *nod->tok << endl;
-	for(unsigned int c = 0 ; c < nod->childs.size() ; c++){
-		for(unsigned int i = 0 ; i < nod->level ; i++)
+inline ostream& operator<<(ostream& os, const NODE& nod){
+	os << *nod.tok << endl;
+	for(unsigned int c = 0 ; c < nod.childs.size() ; c++){
+		for(unsigned int i = 0 ; i < nod.level ; i++)
 			os << "  ";
-		os << '|' << (c+1 == nod->childs.size()? "__" : "--") << nod->childs[c];
+		os << '|' << (c+1 == nod.childs.size()? "__" : "--") << *nod.childs[c];
 	}
 	return os;
 }
@@ -48,5 +55,6 @@ class SLRparser{
 	string output();
 	string parseTree(PRODUCTION* = NULL);
 	NODE* parseTree2();
+	NODE* treegen(list<PRODUCTION*>*,NODE* = NULL,unsigned int = 0);
 	bool isValid();
 };

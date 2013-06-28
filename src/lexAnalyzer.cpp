@@ -34,7 +34,6 @@ lexAnalyzer::lexAnalyzer(istream& input){
 }
 
 void lexAnalyzer::init(){
-	//cout << "Analyzing " << endl << code << endl;	//debug use to check code to be processed
 	for(size_t i = 0 ; i < code.length() ; i++){
 		if((i == 0 || (i > 0 && isWhiteSpace(code[i-1]))) && !isWhiteSpace(code[i])){
 			string tok = "";
@@ -89,7 +88,7 @@ bool lexAnalyzer::isInt(string str){
 				return false;
 	}else if(str[0] < '0' | str[0] > '9')
 		return false;
-	else	return true;
+	return true;
 }
 
 bool lexAnalyzer::isFloat(string str){
@@ -126,13 +125,17 @@ bool lexAnalyzer::isString(string str){
 	else	return true;
 }
 
+bool lexAnalyzer::isSpecialSymbol(char c){
+	for(unsigned int i = 0 ; i < sizeof(specialSymbols)/sizeof(specialSymbols[0]) ; i++)
+		if(specialSymbols[i] == c)
+			return true;
+	return false;
+}
+
 bool lexAnalyzer::isSpecialSymbol(string str){
 	if(str.length() != 1)
 		return false;
-	for(unsigned int i = 0 ; i < sizeof(specialSymbols)/sizeof(specialSymbols[0]) ; i++)
-		if(specialSymbols[i] == str[0])
-			return true;
-	return false;
+	return isSpecialSymbol(str[0]);
 }
 
 bool lexAnalyzer::isIdentifier(string str){

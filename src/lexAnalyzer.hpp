@@ -32,14 +32,10 @@ typedef struct _token{
 	bool operator != (const _token& tok) const{
 		return name.compare(tok.name) || val.compare(tok.val) || isTerminal != tok.isTerminal;
 	}
-	
-	operator string() {
-		return name+(isTerminal? "<T>" : "<nT>")+(name.compare(val)? '['+val+']' : "");
-	}
 } TOKEN;
 
 inline ostream& operator<<(ostream& os, const _token& tok){
-	return os << tok.name << (tok.isTerminal? "<T>" : "<nT>") << (tok.name.compare(tok.val)? '['+tok.val+']' : "");
+	return os << tok.name << (tok.isTerminal? "<T>" : "") << (tok.name.compare(tok.val)? '['+tok.val+']' : "");
 }
 
 inline ostream& operator<<(ostream& os, const list<TOKEN>& toks){
@@ -70,6 +66,7 @@ class lexAnalyzer{
 	static bool isFloat(string);
 	static bool isChar(string);
 	static bool isString(string);
+	static bool isSpecialSymbol(char);
 	static bool isSpecialSymbol(string);
 	static bool isIdentifier(string);
 	bool isValid();

@@ -1,9 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <map>
 #include <list>
-#include "SLRparser.hpp"
+#include "semanticAnalyzer.hpp"
 
 using namespace std;
 
@@ -17,8 +16,8 @@ int main(int argc, char ** argv){
 		cerr << "Unable to open the " << (ifs.is_open()? "grammer" : "java") << " file(" << argv[1] << "), kindly check the filename or permission!" << endl;
 		return 2;
 	}
-	ofstream ofs1 ("output1.txt"), ofs2 ("output2.txt");
-	if(!ofs1.is_open() || !ofs2.is_open()){
+	ofstream ofs1 ("output1.txt"), ofs2 ("output2.txt"), ofs3("output3.tm");
+	if(!ofs1.is_open() || !ofs2.is_open() || !ofs3.is_open()){
 		cerr << "Unable to open the output files for saving..." << endl;
 		cerr << "Output(s) will be printed on default stream (typically screen)!" << endl;
 	}
@@ -34,9 +33,11 @@ int main(int argc, char ** argv){
 		cerr << "Syntax Incorrect!!!" << endl;
 		return 4;
 	}
-	cout << "Parsed successfully! " << endl;
-	//ofs2 << slr->parseTree();
-	cout << slr->parseTree2();
-	cout << *slr->parseTree2();
+	cout << "Parsed successfully! Performing semantic analysis..." << endl;
+	semanticAnalyzer* sa = new semanticAnalyzer(slr);
+	//cout << *slr->parseTree2();
+	sa->printQuadruples(ofs2);
+	cout << "Generating TM code..." << endl;
+	sa->printTM(ofs3);
 	return 0;
 }

@@ -1,74 +1,29 @@
-1 JavaClass<nT> => Modifier<nT> class<T> Identifier<T>[TestFile1] ClassBody<nT>
-	2 Modifier<nT> => public<T>
-		3 public<T>
-	2 class<T>
-	2 Identifier<T>[TestFile1]
-	2 ClassBody<nT> => {<T> ClassBodyDeclaration<nT> }<T>
-		3 {<T>
-		3 ClassBodyDeclaration<nT> => DeclarationList<nT>
-			4 DeclarationList<nT> => Declaration<nT>
-				5 Declaration<nT> => FunDeclaration<nT>
-					6 FunDeclaration<nT> => Modifier<nT> static<T> TypeSpecifier<nT> Identifier<T>[main] (<T> )<T> CompoundStmt<nT>
-						7 Modifier<nT> => public<T>
-							8 public<T>
-						7 static<T>
-						7 TypeSpecifier<nT> => void<T>
-							8 void<T>
-						7 Identifier<T>[main]
-						7 (<T>
-						7 )<T>
-						7 CompoundStmt<nT> => {<T> LocalDeclarations<nT> StatementList<nT> }<T>
-							8 {<T>
-							8 LocalDeclarations<nT> => LocalDeclarations<nT> VarDeclaration<nT>
-								9 LocalDeclarations<nT> => LocalDeclarations<nT> VarDeclaration<nT>
-									10 LocalDeclarations<nT> =>
-									10 VarDeclaration<nT> => TypeSpecifier<nT> Identifier<T>[a] ;<T>
-										11 TypeSpecifier<nT> => int<T>
-											12 int<T>
-										11 Identifier<T>[a]
-										11 ;<T>
-								9 VarDeclaration<nT> => TypeSpecifier<nT> Identifier<T>[b] ;<T>
-									10 TypeSpecifier<nT> => int<T>
-										11 int<T>
-									10 Identifier<T>[b]
-									10 ;<T>
-							8 StatementList<nT> => StatementList<nT> Statement<nT>
-								9 StatementList<nT> => StatementList<nT> Statement<nT>
-									10 StatementList<nT> =>
-									10 Statement<nT> => ExpressionStmt<nT>
-										11 ExpressionStmt<nT> => Expression<nT> ;<T>
-											12 Expression<nT> => Identifier<T>[b] =<T> Expression<nT>
-												13 Identifier<T>[b]
-												13 =<T>
-												13 Expression<nT> => SimpleExpression<nT>
-													14 SimpleExpression<nT> => AdditiveExpression<nT>
-														15 AdditiveExpression<nT> => Term<nT>
-															16 Term<nT> => Factor<nT>
-																17 Factor<nT> => Int<T>[2]
-																	18 Int<T>[2]
-											12 ;<T>
-								9 Statement<nT> => ExpressionStmt<nT>
-									10 ExpressionStmt<nT> => Expression<nT> ;<T>
-										11 Expression<nT> => Identifier<T>[a] =<T> Expression<nT>
-											12 Identifier<T>[a]
-											12 =<T>
-											12 Expression<nT> => SimpleExpression<nT>
-												13 SimpleExpression<nT> => AdditiveExpression<nT>
-													14 AdditiveExpression<nT> => AdditiveExpression<nT> Addop<nT> Term<nT>
-														15 AdditiveExpression<nT> => Term<nT>
-															16 Term<nT> => Factor<nT>
-																17 Factor<nT> => Int<T>[3]
-																	18 Int<T>[3]
-														15 Addop<nT> => +<T>
-															16 +<T>
-														15 Term<nT> => Term<nT> Mulop<nT> Factor<nT>
-															16 Term<nT> => Factor<nT>
-																17 Factor<nT> => Int<T>[6]
-																	18 Int<T>[6]
-															16 Mulop<nT> => *<T>
-																17 *<T>
-															16 Factor<nT> => Identifier<T>[b]
-																17 Identifier<T>[b]
-										11 ;<T>
-							8 }<T>
-		3 }<T>
+=	3		t0
+=	t0		b
+=	3		t2
+=	6		t3
+=	b		t4
+*	t3	t4	t5
++	t2	t5	t6
+=	3		t7
++	t6	t7	t8
+=	6		t9
++	t8	t9	t10
+=	9		t11
++	t10	t11	t12
+=	2		t13
++	t12	t13	t14
+=	6		t15
++	t14	t15	t16
+=	3		t17
++	t16	t17	t18
+=	t18		a
+=	b		t20
+=	2		t21
+>	t20	t21	t22
+=	25		t23
+=	t23		a
+=	6		t25
+=	t25		b
+=	a		t27
+=	t27		b
